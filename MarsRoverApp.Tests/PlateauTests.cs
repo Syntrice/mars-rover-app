@@ -7,10 +7,10 @@ namespace MarsRoverApp.Tests
     [TestFixture]
     public class PlateauTests
     {
-        [TestCase(0,0, Direction.North)]
-        [TestCase(1,3, Direction.East)]
-        [TestCase(3,1, Direction.South)]
-        [TestCase(4,4, Direction.West)]
+        [TestCase(0, 0, Direction.North)]
+        [TestCase(1, 3, Direction.East)]
+        [TestCase(3, 1, Direction.South)]
+        [TestCase(4, 4, Direction.West)]
         public void GetRoverAtPos_ExistingRover_ReturnExpectedRover(int x, int y, Direction direction)
         {
             // Arrange
@@ -42,13 +42,13 @@ namespace MarsRoverApp.Tests
             };
 
             // Assert
-            action.Should().Throw<ArgumentOutOfRangeException>();   
+            action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
-        [TestCase(3, 3, Direction.North, 3,4)]
-        [TestCase(3, 3, Direction.East,4,3)]
-        [TestCase(3, 3, Direction.South,3,2)]
-        [TestCase(3, 3, Direction.West,2,3)]
+        [TestCase(3, 3, Direction.North, 3, 4)]
+        [TestCase(3, 3, Direction.East, 4, 3)]
+        [TestCase(3, 3, Direction.South, 3, 2)]
+        [TestCase(3, 3, Direction.West, 2, 3)]
         public void OnRoverMove_WhenRoverMovesToEmptyCoordinate_RoverPositionUpdates(
             int startX,
             int startY,
@@ -58,7 +58,7 @@ namespace MarsRoverApp.Tests
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
-            plateau.LandRover(new RoverPosition(startX,startY, direction));
+            plateau.LandRover(new RoverPosition(startX, startY, direction));
             Rover rover = plateau.GetRoverAtPos(startX, startY);
 
             // Act
@@ -69,10 +69,10 @@ namespace MarsRoverApp.Tests
             plateau.GetRoverAtPos(finalX, finalY).Should().Be(rover);
         }
 
-        [TestCase(4,4,Direction.North)]
-        [TestCase(4,4,Direction.East)]
-        [TestCase(0,0,Direction.South)]
-        [TestCase(0,0,Direction.West)]
+        [TestCase(4, 4, Direction.North)]
+        [TestCase(4, 4, Direction.East)]
+        [TestCase(0, 0, Direction.South)]
+        [TestCase(0, 0, Direction.West)]
         public void OnRoverMove_WhenRoverMovesOutOfBounds_RoverPositionStaysSame(int startX, int startY, Direction direction)
         {
             // Arrange
@@ -111,11 +111,9 @@ namespace MarsRoverApp.Tests
             rover.Instruct(RoverInstruction.MoveForward);
 
             // Assert
-            plateau.GetRoverAtPos(startX,startY).Should().Be(rover);
-            plateau.GetRoverAtPos(secondRoverX, secondRoverY).Should().Be(secondRover); 
-
+            plateau.GetRoverAtPos(startX, startY).Should().Be(rover);
+            plateau.GetRoverAtPos(secondRoverX, secondRoverY).Should().Be(secondRover);
         }
-
 
         [TestCase(5, 5)]
         [TestCase(-5, -5)]
@@ -145,21 +143,19 @@ namespace MarsRoverApp.Tests
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
-            plateau.LandRover(new RoverPosition(x,y, Direction.North));
+            plateau.LandRover(new RoverPosition(x, y, Direction.North));
             Rover? expectedRover = plateau.GetRoverAtPos(x, y);
 
             // Act
             plateau.LandRover(new RoverPosition(x, y, Direction.North));
 
             // Assert
-            plateau.GetRoverAtPos(x,y).Should().Be(expectedRover);
+            plateau.GetRoverAtPos(x, y).Should().Be(expectedRover);
         }
 
         private Plateau GetDefaultPlateau()
         {
             return new Plateau(new PlateauSize(5, 5));
         }
-
-
     }
 }
