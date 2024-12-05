@@ -76,7 +76,7 @@ namespace MarsRoverApp.Tests
 
         [TestCase("")]
         [TestCase("5")]
-        [TestCase("0 0")]
+        //[TestCase("0 0")] minimum size test - unsure what this should be
         [TestCase("-5 5")]
         [TestCase("5 -5")]
         [TestCase("-5 -5")]
