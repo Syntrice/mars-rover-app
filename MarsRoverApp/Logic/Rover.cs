@@ -19,6 +19,11 @@ namespace MarsRoverApp.Logic
             _observers.Add(observer);
         }
 
+        private void MoveForward()
+        {
+            _observers.ForEach(observer => observer.OnRoverMove(this));
+        }
+
         public void Instruct(RoverInstruction instruction)
         {
             switch (instruction)
@@ -29,7 +34,9 @@ namespace MarsRoverApp.Logic
                 case RoverInstruction.TurnRight:
                     Direction = Direction == Direction.West ? Direction.North : Direction + 1;
                     break;
-
+                case RoverInstruction.MoveForward:
+                    MoveForward();
+                    break;
             }
         }
     }
