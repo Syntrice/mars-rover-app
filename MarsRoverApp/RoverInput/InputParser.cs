@@ -7,9 +7,9 @@
             return new PlateauSize(0, 0);
         }
 
-        public static Position ParsePositionString(string input)
+        public static RoverPosition ParsePositionString(string input)
         {
-            return new Position(0, 0, Direction.North);
+            return new RoverPosition(0, 0, Direction.North);
         }
 
         public static RoverInstruction ParseRoverInstructionString(string input)
