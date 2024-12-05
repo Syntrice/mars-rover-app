@@ -65,7 +65,7 @@ namespace MarsRoverApp.Tests
             rover.Instruct(RoverInstruction.MoveForward);
 
             // Assert
-            plateau.GetRoverAtPos(startX,startY).Should().BeNull();
+            plateau.GetRoverAtPos(startX, startY).Should().BeNull();
             plateau.GetRoverAtPos(finalX, finalY).Should().Be(rover);
         }
 
