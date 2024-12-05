@@ -8,4 +8,4 @@ mars" according to sequences of commands.
 The kata is a task set by [Northcoders](https://northcoders.com/) as part of
 their C# / .NET software engineering bootcamp.
 
-Commits messagesin this repository follow the [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+Commit messages in this repository follow the [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
