@@ -6,9 +6,17 @@ namespace MarsRoverApp.Logic
     {
         public Direction Direction { get; private set; }
 
+        private List<IRoverObserver> _observers;
+
         public Rover(Direction initialDirection)
         {
             Direction = initialDirection;
+            _observers = new List<IRoverObserver>();
+        }
+
+        public void AddObserver(IRoverObserver observer)
+        {
+            _observers.Add(observer);
         }
 
         public void Instruct(RoverInstruction instruction)
