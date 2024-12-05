@@ -54,5 +54,32 @@ namespace MarsRoverApp.Tests
             // Assert
             roverObserverMock.Verify(observer => observer.OnRoverMove(rover), Times.Once());
         }
+
+        [TestCase(new RoverInstruction[]
+        {
+            RoverInstruction.TurnLeft,
+            RoverInstruction.MoveForward,
+            RoverInstruction.TurnRight,
+            RoverInstruction.MoveForward,
+            RoverInstruction.MoveForward,
+            RoverInstruction.TurnLeft,
+            RoverInstruction.MoveForward,
+            RoverInstruction.TurnRight,
+            RoverInstruction.TurnRight,
+            RoverInstruction.TurnRight
+        }, Direction.South, 4)]
+        public void Instruct_MultipleInstructions_AllPassedCorrectly(RoverInstruction[] instructions, Direction finalDirection, int moveCount)
+        {
+            // Arrange
+            Mock<IRoverObserver> roverObserverMock = new Mock<IRoverObserver>();
+            Rover rover = new Rover(Direction.North);
+            rover.AddObserver(roverObserverMock.Object);
+
+            rover.Instruct(instructions);
+
+            // Assert
+            roverObserverMock.Verify(observer => observer.OnRoverMove(rover), Times.Exactly(4));
+            rover.Direction.Should().Be(finalDirection);
+        }
     }
 }

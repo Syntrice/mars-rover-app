@@ -24,6 +24,14 @@ namespace MarsRoverApp.Logic
             _observers.ForEach(observer => observer.OnRoverMove(this));
         }
 
+        public void Instruct(RoverInstruction[] instructions)
+        {
+            foreach (var instruction in instructions)
+            {
+                Instruct(instruction);
+            }
+        }
+
         public void Instruct(RoverInstruction instruction)
         {
             switch (instruction)
