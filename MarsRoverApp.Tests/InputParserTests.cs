@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using MarsRoverApp.RoverInput;
+using MarsRoverApp.Input;
 
 namespace MarsRoverApp.Tests
 {

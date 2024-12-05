@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsRoverApp.RoverInput
+namespace MarsRoverApp.Input
 {
     public struct PlateauSize(int width, int height)
     {

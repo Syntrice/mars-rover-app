@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace MarsRoverApp.RoverInput
+namespace MarsRoverApp.Input
 {
     public static class InputParser
     {

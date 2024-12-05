@@ -1,4 +1,4 @@
-﻿namespace MarsRoverApp.RoverInput
+﻿namespace MarsRoverApp.Input
 {
     public enum RoverInstruction
     {
