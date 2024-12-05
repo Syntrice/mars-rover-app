@@ -6,17 +6,10 @@ using System.Threading.Tasks;
 
 namespace MarsRoverApp.RoverInput
 {
-    public struct Position
+    public struct Position(int x, int y, Direction direction)
     {
-        public int x { get; }
-        public int y { get; }
-        public Direction direction { get; }
-
-        public Position(int x, int y, Direction direction)
-        {
-            this.x = x;
-            this.y = y;
-            this.direction = direction;
-        }
+        public int x { get; } = x;
+        public int y { get; } = y;
+        public Direction direction { get; } = direction;
     }
 }
