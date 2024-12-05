@@ -10,7 +10,7 @@ namespace MarsRoverApp.Tests
         [TestCase(0,0, Direction.North)]
         [TestCase(1,3, Direction.East)]
         [TestCase(3,1, Direction.South)]
-        [TestCase(5,5, Direction.West)]
+        [TestCase(4,4, Direction.West)]
         public void GetRoverAtPos_ExistingRover_ReturnExpectedRover(int x, int y, Direction direction)
         {
             // Arrange
@@ -43,6 +43,44 @@ namespace MarsRoverApp.Tests
 
             // Assert
             action.Should().Throw<ArgumentOutOfRangeException>();   
+        }
+
+        [TestCase(5, 5)]
+        [TestCase(-5, -5)]
+        [TestCase(3, -3)]
+        [TestCase(-3, 3)]
+        [TestCase(50, 50)]
+        public void LandRover_OutOfBounds_ShouldNotThrow(int x, int y)
+        {
+            // Arrange
+            Plateau plateau = GetDefaultPlateau();
+
+            // Act
+            Action action = () =>
+            {
+                plateau.LandRover(new RoverPosition(x, y, Direction.North));
+            };
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [TestCase(0, 0)]
+        [TestCase(1, 3)]
+        [TestCase(3, 1)]
+        [TestCase(4, 4)]
+        public void LandRover_RoverExistsAtLocation_ShouldNotOverwriteRover(int x, int y)
+        {
+            // Arrange
+            Plateau plateau = GetDefaultPlateau();
+            plateau.LandRover(new RoverPosition(x,y, Direction.North));
+            Rover? expectedRover = plateau.GetRoverAtPos(x, y);
+
+            // Act
+            plateau.LandRover(new RoverPosition(x, y, Direction.North));
+
+            // Assert
+            plateau.GetRoverAtPos(x,y).Should().Be(expectedRover);
         }
 
         private Plateau GetDefaultPlateau()
