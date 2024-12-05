@@ -45,6 +45,78 @@ namespace MarsRoverApp.Tests
             action.Should().Throw<ArgumentOutOfRangeException>();   
         }
 
+        [TestCase(3, 3, Direction.North, 3,4)]
+        [TestCase(3, 3, Direction.East,4,3)]
+        [TestCase(3, 3, Direction.South,3,2)]
+        [TestCase(3, 3, Direction.West,2,3)]
+        public void OnRoverMove_WhenRoverMovesToEmptyCoordinate_RoverPositionUpdates(
+            int startX,
+            int startY,
+            Direction direction,
+            int finalX,
+            int finalY)
+        {
+            // Arrange
+            Plateau plateau = GetDefaultPlateau();
+            plateau.LandRover(new RoverPosition(startX,startY, direction));
+            Rover rover = plateau.GetRoverAtPos(startX, startY);
+
+            // Act
+            rover.Instruct(RoverInstruction.MoveForward);
+
+            // Assert
+            plateau.GetRoverAtPos(startX,startY).Should().BeNull();
+            plateau.GetRoverAtPos(finalX, finalY).Should().Be(rover);
+        }
+
+        [TestCase(4,4,Direction.North)]
+        [TestCase(4,4,Direction.East)]
+        [TestCase(0,0,Direction.South)]
+        [TestCase(0,0,Direction.West)]
+        public void OnRoverMove_WhenRoverMovesOutOfBounds_RoverPositionStaysSame(int startX, int startY, Direction direction)
+        {
+            // Arrange
+            Plateau plateau = GetDefaultPlateau();
+            plateau.LandRover(new RoverPosition(startX, startY, direction));
+            Rover rover = plateau.GetRoverAtPos(startX, startY);
+
+            // Act
+            rover.Instruct(RoverInstruction.MoveForward);
+
+            // Assert
+            plateau.GetRoverAtPos(startY, startY).Should().Be(rover);
+        }
+
+        [TestCase(3, 3, Direction.North, 3, 4)]
+        [TestCase(3, 3, Direction.East, 4, 3)]
+        [TestCase(3, 3, Direction.South, 3, 2)]
+        [TestCase(3, 3, Direction.West, 2, 3)]
+        public void OnRoverMove_WhenRoverMovesToNonEmptyCoordinate_RoverPositionStaysSame(
+            int startX,
+            int startY,
+            Direction direction,
+            int secondRoverX,
+            int secondRoverY)
+        {
+            // Arrange
+            Plateau plateau = GetDefaultPlateau();
+
+            plateau.LandRover(new RoverPosition(startX, startY, direction));
+            plateau.LandRover(new RoverPosition(secondRoverX, secondRoverY, Direction.North));
+
+            Rover rover = plateau.GetRoverAtPos(startX, startY);
+            Rover secondRover = plateau.GetRoverAtPos(secondRoverX, secondRoverY);
+
+            // Act
+            rover.Instruct(RoverInstruction.MoveForward);
+
+            // Assert
+            plateau.GetRoverAtPos(startX,startY).Should().Be(rover);
+            plateau.GetRoverAtPos(secondRoverX, secondRoverY).Should().Be(secondRover); 
+
+        }
+
+
         [TestCase(5, 5)]
         [TestCase(-5, -5)]
         [TestCase(3, -3)]

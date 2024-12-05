@@ -2,7 +2,7 @@
 
 namespace MarsRoverApp.Logic
 {
-    public class Plateau
+    public class Plateau : IRoverObserver
     {
         public PlateauSize Size { get; }
 
@@ -43,6 +43,11 @@ namespace MarsRoverApp.Logic
             }
 
             return _rovers[x, y];
+        }
+
+        public void OnRoverMove(Rover rover)
+        {
+            // TODO
         }
     }
 }
