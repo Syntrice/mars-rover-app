@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MarsRoverApp.Input;
 using MarsRoverApp.Logic;
+using Moq;
 
 namespace MarsRoverApp.Tests
 {
@@ -37,6 +38,21 @@ namespace MarsRoverApp.Tests
 
             // Assert
             rover.Direction.Should().Be(finalDirection);
+        }
+
+        [Test]
+        public void Instruct_WithMoveForward_NotifiesObservers()
+        {
+            // Arrange
+            Mock<IRoverObserver> roverObserverMock = new Mock<IRoverObserver>();
+            Rover rover = new Rover(Direction.North);
+            rover.AddObserver(roverObserverMock.Object);
+
+            // Act
+            rover.Instruct(RoverInstruction.MoveForward);
+
+            // Assert
+            roverObserverMock.Verify(observer => observer.OnRoverMove(rover), Times.Once());
         }
     }
 }
