@@ -2,19 +2,19 @@
 {
     public static class InputParser
     {
-        public static PlateauSize ParsePlateauSizeString(string input)
+        public static PlateauSize ParsePlateauSize(string input)
         {
             return new PlateauSize(0, 0);
         }
 
-        public static RoverPosition ParsePositionString(string input)
+        public static RoverPosition ParseRoverPosition(string input)
         {
             return new RoverPosition(0, 0, Direction.North);
         }
 
-        public static RoverInstruction ParseRoverInstructionString(string input)
+        public static RoverInstruction[] ParseRoverInstructions(string input)
         {
-            return RoverInstruction.MoveForward;
+            return new RoverInstruction[0];
         }
     }
 }
