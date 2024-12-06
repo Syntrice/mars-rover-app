@@ -4,7 +4,7 @@
     {
         public bool IsRunning { get; }
 
-        public void Run();
+        public void Run(IState startingState);
         public void Stop();
 
     }
