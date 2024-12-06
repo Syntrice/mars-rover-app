@@ -14,20 +14,21 @@ namespace MarsRoverApp.Logic
             _rovers = new Rover[size.Width, size.Height];
         }
 
-        public void LandRover(RoverPosition roverPosition)
+        public Rover? LandRover(RoverPosition roverPosition)
         {
             if (roverPosition.x < 0 || roverPosition.y < 0 || roverPosition.x >= Size.Width || roverPosition.y >= Size.Height)
             {
-                return;
+                return null;
             }
 
             if (_rovers[roverPosition.x, roverPosition.y] != null)
             {
-                return;
+                return null:
             }
             Rover rover = new Rover(roverPosition.direction);
             rover.AddObserver(this);
             _rovers[roverPosition.x, roverPosition.y] = rover;
+            return rover;
         }
 
         public Rover? GetRoverAtPos(int x, int y)
