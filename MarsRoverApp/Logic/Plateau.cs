@@ -23,7 +23,7 @@ namespace MarsRoverApp.Logic
 
             if (_rovers[roverPosition.x, roverPosition.y] != null)
             {
-                return null:
+                return null;
             }
             Rover rover = new Rover(roverPosition.direction);
             rover.AddObserver(this);
