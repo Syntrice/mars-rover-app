@@ -16,18 +16,18 @@ namespace MarsRoverApp.Logic
 
         public Rover? LandRover(RoverPosition roverPosition)
         {
-            if (roverPosition.x < 0 || roverPosition.y < 0 || roverPosition.x >= Size.Width || roverPosition.y >= Size.Height)
+            if (roverPosition.X < 0 || roverPosition.Y < 0 || roverPosition.X >= Size.Width || roverPosition.Y >= Size.Height)
             {
                 return null;
             }
 
-            if (_rovers[roverPosition.x, roverPosition.y] != null)
+            if (_rovers[roverPosition.X, roverPosition.Y] != null)
             {
                 return null;
             }
-            Rover rover = new Rover(roverPosition.direction);
+            Rover rover = new Rover(roverPosition.Direction);
             rover.AddObserver(this);
-            _rovers[roverPosition.x, roverPosition.y] = rover;
+            _rovers[roverPosition.X, roverPosition.Y] = rover;
             return rover;
         }
 
@@ -63,10 +63,10 @@ namespace MarsRoverApp.Logic
             // Get new coordinates
             var newCoords = rover.Direction switch
             {
-                Direction.North => (x: position.x, y: position.y + 1),
-                Direction.South => (x: position.x, y: position.y - 1),
-                Direction.East => (x: position.x + 1, y: position.y),
-                Direction.West => (x: position.x - 1, y: position.y),
+                Direction.North => (x: position.X, y: position.Y + 1),
+                Direction.South => (x: position.X, y: position.Y - 1),
+                Direction.East => (x: position.X + 1, y: position.Y),
+                Direction.West => (x: position.X - 1, y: position.Y),
             };
 
             // If out of bounds
@@ -81,7 +81,7 @@ namespace MarsRoverApp.Logic
                 return;
             }
 
-            _rovers[position.x, position.y] = null;
+            _rovers[position.X, position.Y] = null;
             _rovers[newCoords.x, newCoords.y] = rover;
         }
 
