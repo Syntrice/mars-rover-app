@@ -10,7 +10,7 @@
         {
             IsRunning = true;
             State = startingState;
-            while (true)
+            while (IsRunning)
             {
                 State.Run();
             }
