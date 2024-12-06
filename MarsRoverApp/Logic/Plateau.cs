@@ -85,7 +85,8 @@ namespace MarsRoverApp.Logic
             _rovers[newCoords.x, newCoords.y] = rover;
         }
 
-        private RoverPosition? GetRoverPosition(Rover rover)
+        // TODO: Unit Test
+        public RoverPosition? GetRoverPosition(Rover rover)
         {
             for (int i = 0; i < _rovers.GetLength(0); i++)
             {

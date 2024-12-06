@@ -4,6 +4,8 @@
     {
         public static string ParseRoverPosition(RoverPosition position)
         {
+            // TODO: null handling?
+
             string[] parts = new string[3];
             parts[0] = position.X.ToString();
             parts[1] = position.Y.ToString();
