@@ -1,4 +1,7 @@
-﻿namespace MarsRoverApp.Input
+﻿using MarsRoverApp.Logic;
+using System.Text;
+
+namespace MarsRoverApp.Input
 {
     public static class OutputPaser
     {
@@ -21,5 +24,19 @@
             return string.Join(' ', parts);
         }
 
+        public static string ParsePlateau(Plateau plateau)
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int row = 0; row < plateau.Size.Height; row++)
+            {
+                for (int col = 0; col < plateau.Size.Width; col++)
+                {
+                    builder.Append(plateau.GetRoverAtPos(col, row) == null ? "." : "R");
+                }
+                builder.AppendLine();
+            }
+
+            return builder.ToString();
+        }
     }
 }
