@@ -1,4 +1,6 @@
 ﻿using MarsRoverApp;
+using MarsRoverApp.ConsoleGUI;
 
-IApplication application = new Application();
-//application.Run();
+Application application = new Application();
+State state = new PlateauCreationState(application);
+application.Run(state);
