@@ -44,6 +44,7 @@ namespace MarsRoverApp.Logic
             return null;
         }
 
+        [Obsolete("Use TryRoverLanding instead")]
         public Rover? LandRover(RoverPosition roverPosition)
         {
             if (CheckCollisionAtPos(roverPosition.X, roverPosition.Y) == CollisionType.None)
@@ -55,6 +56,19 @@ namespace MarsRoverApp.Logic
             }
             return null ;
         }
+
+        // Todo: Unit Test
+        public bool TryRoverLanding(Rover rover, RoverPosition roverPosition)
+        {
+            if (CheckCollisionAtPos(roverPosition.X, roverPosition.Y) == CollisionType.None)
+            {
+                rover.AddObserver(this);
+                _rovers[roverPosition.X, roverPosition.Y] = rover;
+                return true;
+            }
+            return false;
+        }
+
         public void OnRoverMove(Rover rover)
         {
             //TODO: safety checking to make sure this method only exucutes with existing rovers on the Plateau
