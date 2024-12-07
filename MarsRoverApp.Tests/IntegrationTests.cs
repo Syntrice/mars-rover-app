@@ -34,20 +34,26 @@ namespace MarsRoverApp.Tests
             string expectedRover2Output = "5 1 E";
 
             // -- ACT --
-
-            PlateauSize plateauSize = InputParser.ParsePlateauSize(plateauSizeString);
+            PlateauSize plateauSize;
+            InputParser.TryParsePlateauSize(plateauSizeString, out plateauSize);
             Plateau plateau = new Plateau(plateauSize);
 
             // Rover1
-            RoverPosition rover1Position = InputParser.ParseRoverPosition(rover1Input.initialPosition);
+            RoverPosition rover1Position;
+            InputParser.TryParseRoverPosition(rover1Input.initialPosition, out rover1Position);
             Rover rover1 = plateau.LandRover(rover1Position);
-            RoverInstruction[] rover1Instructions = InputParser.ParseRoverInstructions(rover1Input.instructions);
+
+            RoverInstruction[] rover1Instructions;
+            InputParser.TryParseRoverInstructions(rover1Input.instructions, out rover1Instructions);
+
             rover1.Instruct(rover1Instructions);
 
             // Rover2
-            RoverPosition rover2Position = InputParser.ParseRoverPosition(rover2Input.initialPosition);
+            RoverPosition rover2Position;
+            InputParser.TryParseRoverPosition(rover2Input.initialPosition, out rover2Position);
             Rover rover2 = plateau.LandRover(rover2Position);
-            RoverInstruction[] rover2Instructions = InputParser.ParseRoverInstructions(rover2Input.instructions);
+            RoverInstruction[] rover2Instructions;
+            InputParser.TryParseRoverInstructions(rover2Input.instructions, out rover2Instructions);
             rover2.Instruct(rover2Instructions);
 
             string actualRover1Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover1));
@@ -60,10 +66,6 @@ namespace MarsRoverApp.Tests
             rover2.Direction.Should().Be(rover2FinalPosition.Direction);
             actualRover1Output.Should().Be(expectedRover1Output);
             actualRover2Output.Should().Be(expectedRover2Output);
-
-
-
         }
-
     }
 }

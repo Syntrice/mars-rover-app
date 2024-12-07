@@ -14,12 +14,16 @@ namespace MarsRoverApp.Tests
         [TestCase("10 15", 11, 16)]
         public void ParsePlateauSize_WithValidString_ParsesCorrectly(string input, int expectedWidth, int expectedHeight)
         {
+            // Arrange
+            PlateauSize? plateauSize;
+
             // Act
-            var actual = InputParser.ParsePlateauSize(input);
+            bool success = InputParser.TryParsePlateauSize(input, out plateauSize);
 
             // Assert
-            actual.Width.Should().Be(expectedWidth);
-            actual.Height.Should().Be(expectedHeight);
+            success.Should().BeTrue();
+            plateauSize.Width.Should().Be(expectedWidth);
+            plateauSize.Height.Should().Be(expectedHeight);
         }
 
         [TestCase("0 0 N", 0, 0, Direction.North)]
@@ -32,13 +36,15 @@ namespace MarsRoverApp.Tests
         public void ParseRoverPosition_WithValidString_ParsesCorrectly(string input, int expectedX, int expectedY, Direction expectedDirection)
         {
             // Arrange
+            RoverPosition? roverPosition;
             var expected = new RoverPosition(expectedX, expectedY, expectedDirection);
 
             // Act
-            var actual = InputParser.ParseRoverPosition(input);
+            bool success = InputParser.TryParseRoverPosition(input, out roverPosition);
 
             // Assert
-            actual.Should().BeEquivalentTo(expected);
+            success.Should().BeTrue();
+            roverPosition.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("LRM", new Ri[]
@@ -67,11 +73,15 @@ namespace MarsRoverApp.Tests
         })]
         public void ParseRoverInstructions_WithValidString_ParsesCorrectly(string input, Ri[] expected)
         {
+            // Arrange
+            RoverInstruction[] roverInstructions;
+
             // Act
-            var actual = InputParser.ParseRoverInstructions(input);
+            bool success = InputParser.TryParseRoverInstructions(input, out roverInstructions);
 
             // Assert
-            actual.Should().BeEquivalentTo(expected);
+            success.Should().BeTrue();
+            roverInstructions.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("")]
@@ -83,16 +93,18 @@ namespace MarsRoverApp.Tests
         [TestCase("3 a")]
         [TestCase("3 3 3")]
         [TestCase("foobar123")]
-        public void ParsePlateauSize_WithInvalidString_ThrowsArgumentException(string input)
+        public void ParsePlateauSize_WithInvalidString_ReturnsFalseAndNull(string input)
         {
+            // Arrange
+            PlateauSize? plateauSize;
+
             // Act
-            Action action = () => 
-            { 
-                InputParser.ParsePlateauSize(input);
-            };
+            bool success = InputParser.TryParsePlateauSize(input, out plateauSize);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            success.Should().BeFalse();
+            plateauSize.Should().BeNull();
+
         }
 
         [TestCase("")]
@@ -103,32 +115,34 @@ namespace MarsRoverApp.Tests
         [TestCase("N 5 N")]
         [TestCase("-5 -5 N")]
         [TestCase("foobar123")]
-        public void ParseRoverPosition_WithInvalidString_ThrowsArgumentException(string input)
+        public void ParseRoverPosition_WithInvalidString_ReturnsFalseAndNull(string input)
         {
+            // Arrange
+            RoverPosition? roverPosition;
+
             // Act
-            Action action = () =>
-            {
-                InputParser.ParseRoverPosition(input);
-            };
+            bool success = InputParser.TryParseRoverPosition(input, out roverPosition);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            success.Should().BeFalse();
+            roverPosition.Should().BeNull();
         }
         [TestCase("")]
         [TestCase("12325")]
         [TestCase(@"%$&!~")]
         [TestCase("RL!5M")]
         [TestCase("MRLRXMLLRR")]
-        public void ParseRoverInstructions_WithInvalidString_ThrowsArgumentException(string input)
+        public void ParseRoverInstructions_WithInvalidString_ReturnsFalseAndEmptyArray(string input)
         {
+            // Arrange
+            RoverInstruction[] roverInstructions;
+
             // Act
-            Action action = () =>
-            {
-                InputParser.ParseRoverInstructions(input);
-            };
+            bool success = InputParser.TryParseRoverInstructions(input, out roverInstructions);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            success.Should().BeFalse();
+            roverInstructions.Should().BeEmpty();
         }
     }
 }
