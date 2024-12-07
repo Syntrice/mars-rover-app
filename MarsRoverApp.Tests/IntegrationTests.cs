@@ -50,8 +50,8 @@ namespace MarsRoverApp.Tests
             RoverInstruction[] rover2Instructions = InputParser.ParseRoverInstructions(rover2Input.instructions);
             rover2.Instruct(rover2Instructions);
 
-            string actualRover1Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover1).Value);
-            string actualRover2Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover2).Value);
+            string actualRover1Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover1));
+            string actualRover2Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover2));
 
             // -- ASSERT --
             plateau.GetRoverAtPos(rover1FinalPosition.X, rover1FinalPosition.Y).Should().Be(rover1);

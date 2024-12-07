@@ -50,15 +50,13 @@ namespace MarsRoverApp.Logic
         {
             //TODO: safety checking to make sure this method only exucutes with existing rovers on the Plateau
 
-            RoverPosition? positionNullable = GetRoverPosition(rover);
+            RoverPosition? position = GetRoverPosition(rover);
 
             // Unlikely, but could be null
-            if (positionNullable == null)
+            if (position == null)
             {
                 return;
             }
-
-            RoverPosition position = positionNullable.Value;
 
             // Get new coordinates
             var newCoords = rover.Direction switch
