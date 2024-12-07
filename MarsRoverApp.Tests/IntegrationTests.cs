@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MarsRoverApp.Input;
 using MarsRoverApp.Logic;
+using MarsRoverApp.Output;
 
 namespace MarsRoverApp.Tests
 {
@@ -56,8 +57,11 @@ namespace MarsRoverApp.Tests
             InputParser.TryParseRoverInstructions(rover2Input.instructions, out rover2Instructions);
             rover2.Instruct(rover2Instructions);
 
-            string actualRover1Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover1));
-            string actualRover2Output = OutputPaser.ParseRoverPosition(plateau.GetRoverPosition(rover2));
+            string actualRover1Output;
+            string actualRover2Output;
+
+            OutputPaser.TryParseRoverPosition(plateau.GetRoverPosition(rover1), out actualRover1Output);
+            OutputPaser.TryParseRoverPosition(plateau.GetRoverPosition(rover2), out actualRover2Output);
 
             // -- ASSERT --
             plateau.GetRoverAtPos(rover1FinalPosition.X, rover1FinalPosition.Y).Should().Be(rover1);

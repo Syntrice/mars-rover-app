@@ -1,10 +1,16 @@
-﻿namespace MarsRoverApp.Input
+﻿using MarsRoverApp.Input;
+
+namespace MarsRoverApp.Output
 {
     public static class OutputPaser
     {
-        public static string ParseRoverPosition(RoverPosition position)
+        public static bool TryParseRoverPosition(RoverPosition? position, out string output)
         {
-            // TODO: null handling?
+            output = "";
+            if (position == null)
+            {
+                return false;
+            }
 
             string[] parts = new string[3];
             parts[0] = position.X.ToString();
@@ -18,7 +24,8 @@
                 Direction.West => "W",
             };
 
-            return string.Join(' ', parts);
+            output = string.Join(' ', parts);
+            return true;
         }
 
     }
