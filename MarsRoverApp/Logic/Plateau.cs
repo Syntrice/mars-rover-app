@@ -12,6 +12,22 @@ namespace MarsRoverApp.Logic
             _rovers = new Rover[size.Width, size.Height];
         }
 
+        public CollisionType CheckCollisionAtPos(int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= Size.Width || y >= Size.Height)
+            {
+                return CollisionType.OutOfBounds;
+            }
+            else if (_rovers[x, y] != null)
+            {
+                return CollisionType.Rover;
+            }
+            else
+            {
+                return CollisionType.None;
+            }
+        }
+
         public Rover? GetRoverAtPos(int x, int y)
         {
             if (x < 0 || x >= Size.Width || y < 0 || y >= Size.Height)
@@ -39,31 +55,6 @@ namespace MarsRoverApp.Logic
             return null;
         }
 
-        [Obsolete("Use TryRoverLanding instead")]
-        public Rover? LandRover(RoverPosition roverPosition)
-        {
-            if (CheckCollisionAtPos(roverPosition.X, roverPosition.Y) == CollisionType.None)
-            {
-                Rover rover = new Rover(roverPosition.Direction);
-                rover.AddObserver(this);
-                _rovers[roverPosition.X, roverPosition.Y] = rover;
-                return rover;
-            }
-            return null ;
-        }
-
-        // Todo: Unit Test
-        public bool TryRoverLanding(Rover rover, int x, int y)
-        {
-            if (CheckCollisionAtPos(x, y) == CollisionType.None)
-            {
-                rover.AddObserver(this);
-                _rovers[x, y] = rover;
-                return true;
-            }
-            return false;
-        }
-
         public void OnRoverMove(Rover rover)
         {
             //TODO: safety checking to make sure this method only exucutes with existing rovers on the Plateau
@@ -89,20 +80,15 @@ namespace MarsRoverApp.Logic
             }
         }
 
-        public CollisionType CheckCollisionAtPos(int x, int y)
+        public bool TryRoverLanding(Rover rover, int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Size.Width || y >= Size.Height)
+            if (CheckCollisionAtPos(x, y) == CollisionType.None)
             {
-                return CollisionType.OutOfBounds;
+                rover.AddObserver(this);
+                _rovers[x, y] = rover;
+                return true;
             }
-            else if (_rovers[x,y] != null)
-            {
-                return CollisionType.Rover;
-            }
-            else
-            {
-                return CollisionType.None;
-            }
+            return false;
         }
     }
 }
