@@ -58,12 +58,12 @@ namespace MarsRoverApp.Logic
         }
 
         // Todo: Unit Test
-        public bool TryRoverLanding(Rover rover, RoverPosition roverPosition)
+        public bool TryRoverLanding(Rover rover, int x, int y)
         {
-            if (CheckCollisionAtPos(roverPosition.X, roverPosition.Y) == CollisionType.None)
+            if (CheckCollisionAtPos(x, y) == CollisionType.None)
             {
                 rover.AddObserver(this);
-                _rovers[roverPosition.X, roverPosition.Y] = rover;
+                _rovers[x, y] = rover;
                 return true;
             }
             return false;

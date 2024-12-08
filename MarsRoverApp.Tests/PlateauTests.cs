@@ -15,14 +15,14 @@ namespace MarsRoverApp.Tests
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
-            plateau.LandRover(new RoverPosition(x, y, direction));
+            Rover expectedRover = new Rover(direction);
+            plateau.TryRoverLanding(expectedRover, x, y);
 
             // Act
-            Rover? rover = plateau.GetRoverAtPos(x, y);
+            Rover? actualRover = plateau.GetRoverAtPos(x, y);
 
             // Assert
-            rover.Should().NotBeNull();
-            rover.Direction.Should().Be(direction);
+            actualRover.Should().Be(expectedRover);
         }
 
         [TestCase(5, 5)]
@@ -58,8 +58,8 @@ namespace MarsRoverApp.Tests
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
-            plateau.LandRover(new RoverPosition(startX, startY, direction));
-            Rover rover = plateau.GetRoverAtPos(startX, startY);
+            Rover rover = new Rover(direction);
+            plateau.TryRoverLanding(rover, startX, startY);
 
             // Act
             rover.Instruct(RoverInstruction.MoveForward);
@@ -77,8 +77,8 @@ namespace MarsRoverApp.Tests
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
-            plateau.LandRover(new RoverPosition(startX, startY, direction));
-            Rover rover = plateau.GetRoverAtPos(startX, startY);
+            Rover rover = new Rover(direction);
+            plateau.TryRoverLanding(rover, startX, startY);
 
             // Act
             rover.Instruct(RoverInstruction.MoveForward);
@@ -101,18 +101,18 @@ namespace MarsRoverApp.Tests
             // Arrange
             Plateau plateau = GetDefaultPlateau();
 
-            plateau.LandRover(new RoverPosition(startX, startY, direction));
-            plateau.LandRover(new RoverPosition(secondRoverX, secondRoverY, Direction.North));
+            Rover rover1 = new Rover(direction);
+            Rover rover2 = new Rover(Direction.North);
 
-            Rover rover = plateau.GetRoverAtPos(startX, startY);
-            Rover secondRover = plateau.GetRoverAtPos(secondRoverX, secondRoverY);
+            plateau.TryRoverLanding(rover1, startX, startY);
+            plateau.TryRoverLanding(rover2 , secondRoverX, secondRoverY);
 
             // Act
-            rover.Instruct(RoverInstruction.MoveForward);
+            rover1.Instruct(RoverInstruction.MoveForward);
 
             // Assert
-            plateau.GetRoverAtPos(startX, startY).Should().Be(rover);
-            plateau.GetRoverAtPos(secondRoverX, secondRoverY).Should().Be(secondRover);
+            plateau.GetRoverAtPos(startX, startY).Should().Be(rover1);
+            plateau.GetRoverAtPos(secondRoverX, secondRoverY).Should().Be(rover2);
         }
 
         [TestCase(5, 5)]
@@ -120,36 +120,36 @@ namespace MarsRoverApp.Tests
         [TestCase(3, -3)]
         [TestCase(-3, 3)]
         [TestCase(50, 50)]
-        public void LandRover_OutOfBounds_ShouldNotThrow(int x, int y)
+        public void TryLandRover_OutOfBounds_ShouldReturnFalse(int x, int y)
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
 
             // Act
-            Action action = () =>
-            {
-                plateau.LandRover(new RoverPosition(x, y, Direction.North));
-            };
+            Rover rover = new Rover(Direction.North);
+            bool success = plateau.TryRoverLanding(rover, x, y);
 
             // Assert
-            action.Should().NotThrow();
+            success.Should().BeFalse();
         }
 
         [TestCase(0, 0)]
         [TestCase(1, 3)]
         [TestCase(3, 1)]
         [TestCase(4, 4)]
-        public void LandRover_RoverExistsAtLocation_ShouldNotOverwriteRover(int x, int y)
+        public void LandRover_RoverExistsAtLocation_ShouldNotOverwriteRoverReturnsFalse(int x, int y)
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
-            plateau.LandRover(new RoverPosition(x, y, Direction.North));
-            Rover? expectedRover = plateau.GetRoverAtPos(x, y);
+            Rover expectedRover = new Rover(Direction.North);
+            plateau.TryRoverLanding(expectedRover, x, y);
 
             // Act
-            plateau.LandRover(new RoverPosition(x, y, Direction.North));
+            Rover rover2 = new Rover(Direction.North);
+            bool success = plateau.TryRoverLanding(rover2, x, y);
 
             // Assert
+            success.Should().BeFalse();
             plateau.GetRoverAtPos(x, y).Should().Be(expectedRover);
         }
 
