@@ -30,19 +30,16 @@ namespace MarsRoverApp.Tests
         [TestCase(3, -3)]
         [TestCase(-3, 3)]
         [TestCase(50, 50)]
-        public void GetRoverAtPos_OutOfBounds_ShouldThrowArgumentOutOfRangeException(int x, int y)
+        public void GetRoverAtPos_OutOfBounds_ShouldReturnNull(int x, int y)
         {
             // Arrange
             Plateau plateau = GetDefaultPlateau();
 
             // Act
-            Action action = () =>
-            {
-                plateau.GetRoverAtPos(x, y);
-            };
+            Rover? rover = plateau.GetRoverAtPos(x, y);
 
             // Assert
-            action.Should().Throw<ArgumentOutOfRangeException>();
+            rover.Should().BeNull();
         }
 
         [TestCase(3, 3, Direction.North, 3, 4)]

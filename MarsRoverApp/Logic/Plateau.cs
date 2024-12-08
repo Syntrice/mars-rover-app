@@ -14,14 +14,9 @@ namespace MarsRoverApp.Logic
 
         public Rover? GetRoverAtPos(int x, int y)
         {
-            if (x < 0 || x >= Size.Width)
+            if (x < 0 || x >= Size.Width || y < 0 || y >= Size.Height)
             {
-                throw new ArgumentOutOfRangeException("x");
-            }
-
-            if (y < 0 || y >= Size.Height)
-            {
-                throw new ArgumentOutOfRangeException("y");
+                return null;
             }
 
             return _rovers[x, y];
