@@ -8,6 +8,8 @@ namespace MarsRoverApp.Tests
     [TestFixture]
     public class IntegrationTests
     {
+
+        // TODO: rewrite
         [Test]
         public void InputWithLogic_ValidInput_CorrectRoverPositions()
         {
@@ -42,7 +44,8 @@ namespace MarsRoverApp.Tests
             // Rover1
             RoverPosition rover1Position;
             InputParser.TryParseRoverPosition(rover1Input.initialPosition, out rover1Position);
-            Rover rover1 = plateau.LandRover(rover1Position);
+            Rover rover1 = new Rover(rover1Position.Direction);
+            plateau.TryRoverLanding(rover1, rover1Position.X, rover1Position.Y);
 
             RoverInstruction[] rover1Instructions;
             InputParser.TryParseRoverInstructions(rover1Input.instructions, out rover1Instructions);
@@ -52,7 +55,10 @@ namespace MarsRoverApp.Tests
             // Rover2
             RoverPosition rover2Position;
             InputParser.TryParseRoverPosition(rover2Input.initialPosition, out rover2Position);
-            Rover rover2 = plateau.LandRover(rover2Position);
+
+            Rover rover2 = new Rover(rover2Position.Direction);
+            plateau.TryRoverLanding(rover2, rover2Position.X, rover2Position.Y);
+
             RoverInstruction[] rover2Instructions;
             InputParser.TryParseRoverInstructions(rover2Input.instructions, out rover2Instructions);
             rover2.Instruct(rover2Instructions);
